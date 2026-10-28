@@ -1,0 +1,806 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Creo en lo que crees</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500&display=swap">
+<style>
+  /* Layout: una sola columna de lectura, alineada a la izquierda, con separadores florales en los giros del poema. */
+  :root {
+    --bg: #EFE8FB;
+    --bg2: #E3D8F6;
+    --fg: #3B2D5C;
+    --muted: #66568C;
+    --accent: #9B7FD4;
+    --key: #5A3FA0;
+    --line: #CDBDEE;
+    --blob1: #E6D3F7;
+    --blob2: #F4D9EC;
+    --select: #D5C6F2;
+    --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-ui: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1F1830;
+      --bg2: #2A2042;
+      --fg: #EBE3FB;
+      --muted: #ADA0CF;
+      --accent: #B79CF0;
+      --key: #D6C5FF;
+      --line: #43376A;
+      --blob1: #3A2A60;
+      --blob2: #4A2A55;
+      --select: #51407E;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1F1830;
+    --bg2: #2A2042;
+    --fg: #EBE3FB;
+    --muted: #ADA0CF;
+    --accent: #B79CF0;
+    --key: #D6C5FF;
+    --line: #43376A;
+    --blob1: #3A2A60;
+    --blob2: #4A2A55;
+    --select: #51407E;
+    color-scheme: dark;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--bg);
+    background-image: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    background-attachment: fixed;
+    color: var(--fg);
+    font-family: var(--font-display);
+    padding-block: 4.5rem 6rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 12% 8%, var(--blob1), transparent 42%),
+      radial-gradient(circle at 92% 58%, var(--blob2), transparent 46%),
+      radial-gradient(circle at 20% 100%, var(--blob1), transparent 40%);
+  }
+  ::selection { background: var(--select); }
+
+  .wrap { max-width: 34rem; margin: 0 auto; min-width: 0; }
+
+  header { margin-block-end: 3.5rem; animation: rise 0.9s ease-out both; }
+  .label {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 1.4rem;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(3rem, 12vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    color: var(--key);
+    margin: 0 0 1.8rem;
+    text-wrap: balance;
+  }
+  .dedication {
+    font-style: italic;
+    font-size: clamp(1.25rem, 3.6vw, 1.45rem);
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+    padding-block-start: 1.6rem;
+    border-top: 1px solid var(--line);
+    max-width: 30rem;
+  }
+
+  .poem p {
+    margin: 0 0 1.9rem;
+    font-size: clamp(1.28rem, 3.7vw, 1.5rem);
+    line-height: 1.55;
+    font-weight: 500;
+    text-wrap: pretty;
+  }
+  .poem p.key {
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.45rem, 4.4vw, 1.75rem);
+    line-height: 1.35;
+    color: var(--key);
+  }
+
+  .orn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-block: 3.2rem 3.4rem;
+    color: var(--accent);
+  }
+  .orn::before, .orn::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .orn svg { flex: none; display: block; }
+  .orn .pt { fill: currentColor; }
+  .orn .ct { fill: var(--bg); }
+
+  .close { margin-block-start: 3rem; }
+  .close p.final {
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 7vw, 2.8rem);
+    line-height: 1.15;
+    color: var(--key);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    header { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="flor" viewBox="0 0 24 24">
+    <g class="pt">
+      <ellipse cx="12" cy="6" rx="3" ry="4.6"/>
+      <ellipse cx="12" cy="6" rx="3" ry="4.6" transform="rotate(72 12 12)"/>
+      <ellipse cx="12" cy="6" rx="3" ry="4.6" transform="rotate(144 12 12)"/>
+      <ellipse cx="12" cy="6" rx="3" ry="4.6" transform="rotate(216 12 12)"/>
+      <ellipse cx="12" cy="6" rx="3" ry="4.6" transform="rotate(288 12 12)"/>
+    </g>
+    <circle class="ct" cx="12" cy="12" r="2.2"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <header>
+    <p class="label">Para ti</p>
+    <h1>Creo en lo que crees</h1>
+    <p class="dedication">para ti, que entre todas las formas posibles de existir, te convertiste en mi forma favorita de mirar el mundo.</p>
+  </header>
+
+  <main class="poem">
+    <p>Hay algo en ti que no sé explicar,<br>
+    algo que no cabe en las palabras<br>
+    ni en las páginas de los libros<br>
+    que he leído buscando entender la vida.</p>
+
+    <p>Es como si el universo,<br>
+    después de pasar tanto tiempo<br>
+    construyendo distancias,<br>
+    hubiera cometido una pequeña contradicción<br>
+    y te hubiera puesto en mi camino.</p>
+
+    <p>Y yo, que tantas veces he sentido<br>
+    que el mundo es demasiado grande<br>
+    y que uno es demasiado pequeño para comprenderlo,<br>
+    me encuentro mirándote<br>
+    y pensando que quizá no necesito entenderlo todo,<br>
+    que quizá hay cosas que no llegaron<br>
+    para ser explicadas,<br>
+    sino para ser sentidas.</p>
+
+    <p class="key">Tú eres una de ellas.</p>
+
+    <p>No sé qué tienen tus ojos<br>
+    que consiguen hacerme olvidar, por un instante,<br>
+    todo aquello que me pesa.<br>
+    Ni qué tienen tus gestos,<br>
+    esas pequeñas cosas que haces sin pensarlo,<br>
+    que terminan habitando mi memoria<br>
+    mucho después de que te has ido.</p>
+
+    <p>Me pregunto si sabes<br>
+    que existes de maneras que desconoces,<br>
+    que hay días en los que una palabra tuya<br>
+    me acompaña más que cualquier otra cosa,<br>
+    que a veces recuerdo tu risa<br>
+    y el día parece perder un poco de su dureza.</p>
+
+    <p>Quizá no lo sabes.<br>
+    Quizá nunca llegues a comprender<br>
+    cuántas veces la vida se me ha hecho más amable<br>
+    simplemente porque tú formas parte de ella.</p>
+
+    <p>Y no te lo digo para que cargues<br>
+    con la responsabilidad de hacerme feliz.<br>
+    No quiero convertir tu existencia en una obligación,<br>
+    ni hacer de mi amor una deuda que debas pagar.</p>
+
+    <p>Quiero que seas libre,<br>
+    que tengas tus días malos,<br>
+    tus silencios, tus dudas,<br>
+    tus momentos en los que ni tú misma<br>
+    consigas comprender lo que sientes.</p>
+
+    <p>Quiero que puedas ser tú<br>
+    incluso cuando no sepas muy bien quién eres,<br>
+    porque no necesito que seas perfecta<br>
+    para encontrar en ti algo extraordinario.</p>
+
+    <p>Yo no te elijo porque no tengas defectos;<br>
+    te elijo porque, conociendo tu humanidad,<br>
+    hay algo en ti que mi corazón reconoce<br>
+    sin necesidad de pedirle explicaciones a la razón.</p>
+
+    <p>Y si alguna vez te preguntas<br>
+    por qué tú, entre tantas personas,<br>
+    por qué tu nombre y no cualquier otro,<br>
+    ojalá pudiera abrirte el pecho<br>
+    y mostrarte que no fue una competencia,<br>
+    que no hubo una lista de cualidades<br>
+    ni un cálculo secreto que te diera la victoria.</p>
+
+    <p>Es que no se trata de encontrar<br>
+    a la persona que más se parezca a un sueño.<br>
+    Se trata de encontrar a alguien<br>
+    con quien la realidad también merezca ser vivida.</p>
+
+    <p class="key">Y contigo quiero la realidad.</p>
+
+    <p>Quiero los días ordinarios,<br>
+    las conversaciones que no llegan a ninguna parte,<br>
+    las tardes en las que no hagamos nada importante,<br>
+    los momentos en que nos miremos<br>
+    sin tener una frase inteligente que decir.</p>
+
+    <p>Quiero conocerte en tus días de luz,<br>
+    pero también cuando te cueste reconocerte a ti misma.<br>
+    Quiero escucharte cuando tengas respuestas<br>
+    y quedarme contigo cuando solo tengas preguntas.</p>
+
+    <p>Porque amarte no significa imaginarte<br>
+    como una criatura incapaz de equivocarse,<br>
+    sino recordar que eres humana<br>
+    y aun así encontrar motivos para admirarte.</p>
+
+    <p>Y créeme, amor,<br>
+    no necesito que el mundo entero vea<br>
+    lo que yo encuentro en ti.</p>
+
+    <p>Me basta con saber que existes<br>
+    más allá de mis ojos,<br>
+    que tienes pensamientos que desconozco,<br>
+    sueños que todavía no me cuentas,<br>
+    partes de tu historia que aún no he aprendido.</p>
+
+    <p>Me basta con saber<br>
+    que cada día puedo descubrir algo nuevo de ti,<br>
+    como quien vuelve a un libro querido<br>
+    y encuentra, entre las mismas páginas,<br>
+    un significado que antes no había visto.</p>
+
+    <p>Porque no quiero terminar de conocerte.<br>
+    Quiero tener siempre algo nuevo que aprender de ti.</p>
+
+    <div class="orn" role="presentation"><svg width="24" height="24"><use href="#flor"/></svg></div>
+
+    <p>Hay una frase que quisiera que comprendieras<br>
+    incluso en aquellos días<br>
+    en los que tus pensamientos te traten con dureza,<br>
+    cuando te mires al espejo<br>
+    y encuentres más razones para dudar de ti<br>
+    que motivos para quererte.</p>
+
+    <p class="key">Creo en lo que crees.</p>
+
+    <p>Creo en tus sueños,<br>
+    incluso cuando todavía parecen lejanos.<br>
+    Creo en tus capacidades,<br>
+    incluso cuando tú misma las pongas en duda.<br>
+    Creo en esa parte de ti<br>
+    que sigue intentando,<br>
+    que se levanta después de un día difícil,<br>
+    que guarda esperanzas aunque tenga miedo<br>
+    de volver a decepcionarse.</p>
+
+    <p>Y si alguna vez olvidas<br>
+    todo aquello que eres capaz de hacer,<br>
+    no quiero ser la voz que decida por ti<br>
+    ni la mano que te obligue a caminar.</p>
+
+    <p>Quiero ser quien camine a tu lado,<br>
+    quien te recuerde que tus piernas siguen siendo tuyas,<br>
+    pero que no tienes por qué recorrer sola<br>
+    todos los caminos que te asustan.</p>
+
+    <p class="key">Soy tu equipo, amor.</p>
+
+    <p>No porque crea que debamos poder con todo,<br>
+    sino porque entiendo que habrá cosas<br>
+    que nos queden grandes,<br>
+    días que nos superen<br>
+    y problemas para los que no encontremos respuesta.</p>
+
+    <p>Y aun entonces,<br>
+    cuando no podamos arreglar el mundo,<br>
+    podemos sentarnos un momento<br>
+    y recordar que no estamos obligados<br>
+    a tener todas las soluciones para merecer descanso.</p>
+
+    <p>Si tú dudas, te escucharé.<br>
+    Si yo me pierdo, espero poder escucharte también.<br>
+    Si tenemos miedo, hablaremos del miedo.<br>
+    Y si alguna vez no sabemos qué hacer,<br>
+    podremos empezar por algo tan sencillo<br>
+    como tomarnos de la mano<br>
+    y pensar juntos qué sigue.</p>
+
+    <p>No te prometo que nunca habrá tormentas.<br>
+    Te prometo que no voy a confundir<br>
+    un día difícil con el final de nuestra historia.</p>
+
+    <p>Porque para mí, ser un equipo<br>
+    no significa que jamás vayamos a fallarnos,<br>
+    sino aprender a reconocer nuestros errores,<br>
+    pedir perdón cuando haga falta<br>
+    y recordar que el amor no nos exime<br>
+    de aprender a amar mejor.</p>
+
+    <p>Y cuando digo que somos uno,<br>
+    no quiero decir que debamos dejar de ser nosotros,<br>
+    ni que tus sueños tengan que parecerse a los míos.</p>
+
+    <p>Quiero decir que hay un lugar<br>
+    donde tus alegrías encuentran espacio en las mías,<br>
+    donde tus victorias también me emocionan,<br>
+    donde tus tristezas no me resultan ajenas<br>
+    y donde podemos construir algo<br>
+    sin dejar de ser quienes somos.</p>
+
+    <p>Tú con tu mundo.<br>
+    Yo con el mío.<br>
+    Y entre ambos, algo que elegimos cuidar.</p>
+
+    <p>Algo que no existía antes de nosotros<br>
+    y que solo puede seguir existiendo<br>
+    si los dos decidimos hacerlo crecer.</p>
+
+    <p class="key">Eso significa para mí estar contigo.</p>
+
+    <p>No que seas mía,<br>
+    sino que, siendo completamente tú,<br>
+    quieras compartir conmigo una parte de tu vida.</p>
+
+    <p>No que me pertenezcas,<br>
+    sino que podamos encontrarnos<br>
+    una y otra vez en medio de nuestra libertad.</p>
+
+    <p>No que nunca podamos separarnos,<br>
+    sino que, mientras elijamos caminar juntos,<br>
+    lo hagamos porque queremos,<br>
+    porque nos nace,<br>
+    porque incluso después de conocer<br>
+    la imperfección de lo que somos,<br>
+    seguimos encontrando razones para quedarnos.</p>
+
+    <div class="orn" role="presentation"><svg width="24" height="24"><use href="#flor"/></svg></div>
+
+    <p>A veces pienso en el tiempo<br>
+    y me entristece su manera de avanzar.</p>
+
+    <p>Todo cambia, amor.<br>
+    Cambian las estaciones,<br>
+    cambian las casas,<br>
+    cambian las canciones que escuchamos<br>
+    y las personas que alguna vez juramos<br>
+    que recordaríamos para siempre.</p>
+
+    <p class="key">Nosotros también cambiaremos.</p>
+
+    <p>Un día quizá nos riamos<br>
+    de cosas que hoy nos parecen importantísimas,<br>
+    tendremos nuevas preocupaciones,<br>
+    nuevas versiones de nosotros mismos,<br>
+    y habrá recuerdos que ya no podamos reconstruir<br>
+    con la exactitud con que ahora los vivimos.</p>
+
+    <p>Me da una tristeza extraña pensar en ello,<br>
+    como si la felicidad llevara escondida<br>
+    una pequeña despedida<br>
+    en algún rincón de su existencia.</p>
+
+    <p>Pero he pensado también<br>
+    que quizá esa sea la razón<br>
+    por la que quiero quererte con tanto cuidado.</p>
+
+    <p>Porque sé que no puedo detener el tiempo,<br>
+    ni prometerte que todo será siempre igual,<br>
+    ni asegurar que la vida nunca nos pondrá<br>
+    frente a circunstancias que no imaginamos.</p>
+
+    <p>Lo único que puedo hacer<br>
+    es estar aquí, en este instante,<br>
+    con todo lo que soy capaz de darte,<br>
+    aprendiendo a quererte en el presente<br>
+    sin exigirle al futuro que me firme garantías.</p>
+
+    <p>Y si algún día miramos hacia atrás,<br>
+    quisiera que pudiéramos recordar<br>
+    que no dejamos nuestro amor<br>
+    para cuando tuviéramos más tiempo,<br>
+    más dinero, menos problemas<br>
+    o una vida perfectamente ordenada.</p>
+
+    <p>Quisiera recordar contigo<br>
+    que también supimos ser felices<br>
+    en medio de lo incompleto,<br>
+    que nos dimos abrazos sin motivo,<br>
+    que nos escuchamos de verdad,<br>
+    que encontramos belleza en lo cotidiano<br>
+    y que nunca hicimos de nuestros sueños<br>
+    una excusa para olvidarnos de vivir.</p>
+
+    <p>Porque no quiero amarte solamente<br>
+    en la promesa de lo que podríamos llegar a ser.</p>
+
+    <p>Quiero amarte en lo que somos hoy,<br>
+    con nuestros errores todavía por corregir,<br>
+    con nuestras dudas todavía sin resolver,<br>
+    con esa extraña mezcla de esperanza y miedo<br>
+    que acompaña a quienes desean algo<br>
+    y saben que las cosas importantes<br>
+    nunca vienen con certezas absolutas.</p>
+
+    <p>Quiero que construyamos recuerdos<br>
+    que algún día nos hagan sonreír con nostalgia,<br>
+    no porque hayan sido perfectos,<br>
+    sino porque fueron nuestros.</p>
+
+    <p>Y si el tiempo nos transforma,<br>
+    espero tener la paciencia de conocerte de nuevo,<br>
+    de aprender tus nuevas maneras de mirar el mundo,<br>
+    de enamorarme de las cosas que todavía no existen en ti<br>
+    porque aún no has tenido que descubrirlas.</p>
+
+    <p>No quiero conservarte en una versión antigua,<br>
+    como quien guarda una fotografía<br>
+    y pretende que la persona retratada<br>
+    nunca vuelva a cambiar.</p>
+
+    <p>Quiero verte crecer.<br>
+    Quiero crecer contigo.<br>
+    Quiero que nos sorprendamos<br>
+    de todo lo que todavía podemos llegar a ser.</p>
+
+    <p>Y, sobre todo,<br>
+    quiero que nunca sientas que debes quedarte igual<br>
+    para que yo pueda seguir queriéndote.</p>
+
+    <div class="orn" role="presentation"><svg width="24" height="24"><use href="#flor"/></svg></div>
+
+    <p>Si alguna vez la vida nos pregunta<br>
+    qué encontramos el uno en el otro,<br>
+    no sé si tendré una respuesta lo bastante hermosa.</p>
+
+    <p>Quizá solo diga que encontré tus ojos,<br>
+    tu manera de hablar,<br>
+    tus ocurrencias, tus gestos,<br>
+    esas pequeñas particularidades tuyas<br>
+    que no podrían pertenecerle a nadie más.</p>
+
+    <p>Quizá diga que encontré una persona<br>
+    a la que quiero escuchar incluso cuando estoy cansado,<br>
+    alguien cuyo nombre puede aparecer en mi mente<br>
+    en medio de cualquier tarde ordinaria,<br>
+    alguien con quien deseo compartir<br>
+    no solo mis mejores noticias,<br>
+    sino también las cosas pequeñas<br>
+    que me suceden y que, por alguna razón,<br>
+    me hacen pensar: esto quiero contárselo a ella.</p>
+
+    <p class="key">Quizá no sepa explicarlo mejor.</p>
+
+    <p class="key">Y tal vez no haga falta.</p>
+
+    <p>Porque hay sentimientos que pierden algo<br>
+    cuando intentamos encerrarlos en definiciones,<br>
+    como si una emoción pudiera permanecer intacta<br>
+    después de haberla convertido en una fórmula.</p>
+
+    <p>Así que, si algún día dudas de tu lugar en mi vida,<br>
+    si la inseguridad te susurra que podrías ser reemplazada<br>
+    o que existe alguien con quien sería más sencillo,<br>
+    quiero que recuerdes algo:</p>
+
+    <p>No te amo porque hayas ocupado un espacio vacío<br>
+    que cualquier otra persona podría llenar.</p>
+
+    <p>Te amo porque ese espacio,<br>
+    si es que alguna vez existió,<br>
+    dejó de ser una ausencia<br>
+    cuando empezó a llenarse de ti.</p>
+
+    <p>Y tú no eres una comparación,<br>
+    ni una alternativa,<br>
+    ni una posibilidad entre muchas<br>
+    que sigo examinando a escondidas.</p>
+
+    <p>Eres una persona a la que conozco,<br>
+    a la que admiro,<br>
+    a la que sigo descubriendo<br>
+    y con quien deseo compartir mi camino.</p>
+
+    <p>No necesito convencerme de que eres única<br>
+    enumerando todas las cosas que te diferencian del resto.</p>
+
+    <p>Me basta con saber<br>
+    que nadie más ha vivido nuestra historia,<br>
+    nadie más ha compartido conmigo<br>
+    exactamente estos instantes,<br>
+    estas palabras, estas risas,<br>
+    estos pequeños fragmentos de existencia<br>
+    que ahora llevan tu nombre en mi memoria.</p>
+
+    <p>No te elijo porque no exista nadie más.<br>
+    Te elijo porque, existiendo tantas personas,<br>
+    mi deseo de construir algo verdadero<br>
+    encuentra contigo un lugar donde comenzar.</p>
+
+    <div class="orn" role="presentation"><svg width="24" height="24"><use href="#flor"/></svg></div>
+
+    <p>Y mañana, cuando el mundo vuelva a ser mundo,<br>
+    cuando haya pendientes, cansancio,<br>
+    ruido y razones para distraernos,<br>
+    espero recordarte esto de las formas más sencillas:</p>
+
+    <p>Preguntarte cómo estás<br>
+    y quedarme a escuchar la respuesta.</p>
+
+    <p>Celebrar tus logros<br>
+    sin sentir que tus alas me alejan de ti.</p>
+
+    <p>Darte espacio cuando lo necesites<br>
+    y acercarme cuando me lo permitas.</p>
+
+    <p>Aprender a pedirte perdón<br>
+    sin convertir mis errores en excusas.</p>
+
+    <p>Hacerte saber que te amo<br>
+    no solo cuando las palabras me salen bonitas,<br>
+    sino también con la paciencia,<br>
+    la honestidad y el cuidado<br>
+    con los que se sostienen las cosas importantes.</p>
+
+    <p>Porque un poema puede decirte<br>
+    que te elegiría entre todos los universos,<br>
+    pero la vida sucede aquí,<br>
+    en este mundo imperfecto<br>
+    donde el amor también se demuestra<br>
+    cumpliendo las pequeñas promesas.</p>
+
+    <p class="key">Y yo quiero que mis actos<br>
+    aprendan a hablar el mismo idioma que mis versos.</p>
+
+    <p>Así que, amor,<br>
+    si me preguntas qué quiero de nosotros,<br>
+    no te diré que quiero una historia<br>
+    en la que nunca conozcamos la tristeza.</p>
+
+    <p>Quiero una historia en la que la tristeza<br>
+    no nos haga olvidar toda la ternura que existe.</p>
+
+    <p>No te diré que quiero ser suficiente<br>
+    para resolver cada problema de tu vida.</p>
+
+    <p>Quiero ser alguien con quien puedas hablar<br>
+    cuando no sepas cómo resolverlos.</p>
+
+    <p>No te diré que puedo prometerte una eternidad<br>
+    como si tuviera el tiempo entre las manos.</p>
+
+    <p>Pero puedo decirte que, mientras construyamos esto,<br>
+    quiero hacerlo con intención,<br>
+    con respeto,<br>
+    con la voluntad de aprender<br>
+    y con el corazón dispuesto a permanecer presente.</p>
+
+    <p>Y si alguna vez el futuro se vuelve incierto,<br>
+    si nuestros caminos se llenan de preguntas<br>
+    que todavía no sabemos responder,<br>
+    quiero que podamos mirarnos<br>
+    sin olvidar que una vez nos encontramos<br>
+    y decidimos intentarlo.</p>
+
+    <p>Porque yo creo en lo que crees.<br>
+    Creo en ti.<br>
+    Creo en tus posibilidades,<br>
+    en las cosas que sueñas hacer<br>
+    y en la persona que estás construyendo cada día.</p>
+
+    <p>Soy tu equipo,<br>
+    no para decidir por ti hacia dónde ir,<br>
+    sino para que sepas que tus sueños<br>
+    no tienen que hacerse pequeños<br>
+    para caber en una relación.</p>
+
+    <p>Y somos uno<br>
+    en esa forma tan nuestra de acompañarnos,<br>
+    de compartir lo que somos<br>
+    sin dejar de ser nosotros,<br>
+    de construir un nosotros<br>
+    que no borre ninguno de nuestros nombres.</p>
+
+    <div class="orn" role="presentation"><svg width="24" height="24"><use href="#flor"/></svg></div>
+
+    <p>Si pudiera pedirle algo a la vida,<br>
+    no le pediría que te hiciera perfecta,<br>
+    ni que eliminara de tu camino<br>
+    cada cosa capaz de hacerte llorar.</p>
+
+    <p>Le pediría que te permitiera descubrir<br>
+    todo lo hermoso que existe en ti,<br>
+    que nunca te faltaran motivos para seguir soñando<br>
+    y que, en los días en los que te costara creer en ti,<br>
+    pudieras recordar que mereces amor<br>
+    sin tener que ganártelo siendo extraordinaria.</p>
+
+    <p>Y, si me lo permitiera,<br>
+    le pediría seguir estando cerca,<br>
+    conocerte en todas tus versiones,<br>
+    ser testigo de tus pequeños triunfos<br>
+    y aprender a acompañarte<br>
+    sin pretender tener siempre la respuesta.</p>
+
+    <p>Porque de todas las cosas que quisiera darte,<br>
+    hay una que deseo que nunca te falte:</p>
+
+    <p>La tranquilidad de saber<br>
+    que no tienes que convertirte en otra persona<br>
+    para merecer mi cariño.</p>
+
+    <p>Que no necesitas competir con un recuerdo,<br>
+    con una idea,<br>
+    con una mujer imaginaria<br>
+    ni con ninguna versión de lo que podría haber sido.</p>
+
+    <p>Que no tienes que ser la mejor de todas<br>
+    para ser la persona que amo.</p>
+
+    <p class="key">No quiero a alguien que sea mejor que tú.<br>
+    Quiero conocerte cada vez más a ti.</p>
+
+    <p>A ti, con tus días luminosos<br>
+    y tus noches interminables.<br>
+    A ti, cuando tienes el mundo en las manos<br>
+    y cuando apenas encuentras fuerzas<br>
+    para levantarte de la cama.<br>
+    A ti, cuando te sientes capaz de todo<br>
+    y cuando necesitas recordar<br>
+    que no tienes que poder con todo.</p>
+
+    <p>A ti, no como una idea que he construido<br>
+    para no sentirme solo,<br>
+    sino como la persona real que eres,<br>
+    con una vida propia,<br>
+    con una historia que comenzó mucho antes de mí<br>
+    y con un futuro que merece seguir siendo tuyo.</p>
+
+    <p>A ti, porque entre las infinitas cosas<br>
+    que todavía no conozco de la vida,<br>
+    hay una que hoy sé con una certeza serena:</p>
+
+    <p class="key">Que quiero seguir descubriéndola contigo.</p>
+
+    <p>Y si mañana me preguntan<br>
+    qué significa para mí amarte,<br>
+    quizá no hable de destinos,<br>
+    ni de almas predestinadas,<br>
+    ni de promesas imposibles de cumplir.</p>
+
+    <p>Quizá diga, simplemente,<br>
+    que creo en lo que crees,<br>
+    que estoy de tu lado,<br>
+    que quiero verte crecer,<br>
+    que me importa lo que sientes<br>
+    y que, entre todas las vidas que podría imaginar,<br>
+    hay una que me emociona especialmente:</p>
+
+    <p>la que todavía no hemos vivido,<br>
+    pero que podemos construir juntos.</p>
+
+    <p>Porque tú eres tú, amor,<br>
+    y eso no es poca cosa.</p>
+
+    <p>Eres tú,<br>
+    con tu nombre, tus ojos, tu risa,<br>
+    tus pensamientos y tus contradicciones.</p>
+
+    <p>Eres tú,<br>
+    y no necesito que seas nadie más.</p>
+
+    <p>Y yo, con todo lo que todavía me falta aprender,<br>
+    con mis propias dudas y mis propios miedos,<br>
+    quiero caminar a tu lado<br>
+    mientras ambos sigamos eligiendo este camino.</p>
+
+    <p>No porque te prometa que nunca habrá oscuridad,<br>
+    sino porque incluso en los días grises<br>
+    quiero recordar contigo<br>
+    que no todo lo que vale la pena<br>
+    tiene que ser fácil para ser hermoso.</p>
+
+    <p>Así que, si alguna vez olvidas estas palabras,<br>
+    si el tiempo las desgasta<br>
+    o si un día tus dudas hablan más fuerte que mi voz,<br>
+    vuelve a esta pequeña verdad:</p>
+
+    <p>No eres una opción que tuve que comparar.<br>
+    No eres una casualidad que pienso corregir.<br>
+    No eres un lugar provisional<br>
+    en el que me quedaré hasta encontrar algo distinto.</p>
+
+    <p>Eres la persona a la que amo hoy,<br>
+    la persona a la que quiero seguir conociendo mañana,<br>
+    la persona con quien deseo construir<br>
+    algo que sea tan real<br>
+    como nuestras imperfecciones<br>
+    y tan hermoso<br>
+    como todo lo que todavía podemos aprender.</p>
+
+    <p>Y mientras tú quieras,<br>
+    mientras ambos cuidemos lo que tenemos,<br>
+    mientras sigamos encontrando razones<br>
+    para volver a tomarnos de la mano,<br>
+    yo quiero estar aquí.</p>
+
+    <p class="key">Creyendo en lo que crees.<br>
+    Siendo tu equipo.<br>
+    Construyendo contigo.</p>
+
+    <p>No para que dejemos de ser dos personas,<br>
+    sino para que nunca olvidemos<br>
+    que podemos elegir caminar en la misma dirección<br>
+    sin dejar de tener alas propias.</p>
+
+    <div class="orn" role="presentation"><svg width="24" height="24"><use href="#flor"/></svg></div>
+
+    <p>Porque, al final,<br>
+    si alguien me preguntara<br>
+    qué es lo que encuentro de irrepetible en ti,<br>
+    después de todos estos versos<br>
+    y de todas las palabras que aún me faltan,<br>
+    creo que solo podría mirarte<br>
+    y decirte la verdad más sencilla que conozco:</p>
+
+    <p>No sé si existe un destino escrito para nosotros,<br>
+    ni si el universo tenía planeado nuestro encuentro.<br>
+    Pero sé que te encontré,<br>
+    que te conozco,<br>
+    que te amo,<br>
+    y que, pudiendo soñar con tantas cosas,<br>
+    una de las que más deseo<br>
+    es seguir construyendo mis días contigo.</p>
+
+    <p>Y eso, mi amor,<br>
+    no es una promesa que le hago al universo.</p>
+
+    <div class="close">
+      <p class="final">Es una elección que te hago a ti.</p>
+    </div>
+  </main>
+</div>
+
+</body></html>
